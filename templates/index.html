@@ -21,7 +21,11 @@
         </th>
         {% endfor %}
     </thead>
-    <tbody></tbody>
+    <tbody>
+    {% for i in range(10) %}
+        <tr id="row-{{ i }}" data-row></tr>
+    {% endfor %}
+    </tbody>
 </table>
 </body>
 </html>
