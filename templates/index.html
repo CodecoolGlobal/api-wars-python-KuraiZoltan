@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/main.css">
     <script src="/static/main.js" defer></script>
     <title>Jedi Archives</title>
 </head>
@@ -12,7 +13,7 @@
     <button id="next">Next</button>
 </header>
 
-<table>
+<table class="container">
     <thead>
         {% for data in datas %}
         <th>
@@ -20,22 +21,7 @@
         </th>
         {% endfor %}
     </thead>
-    <tbody>
-
-    </tbody>
+    <tbody></tbody>
 </table>
 </body>
 </html>
-
-
-{#{% for i in range(1, 9) %}#}
-{#        <tbody>#}
-{#            <tr>#}
-{#                {% for i in range(1, 9) %}#}
-{#                    <td>#}
-{#                        {{ i }}#}
-{#                    </td>#}
-{#                {% endfor %}#}
-{#            </tr>#}
-{#        </tbody>#}
-{#    {% endfor %}#}
