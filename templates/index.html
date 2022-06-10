@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/main.js" defer></script>
+    <title>Jedi Archives</title>
+</head>
+<body>
+<header>
+    <h1>Star Wars universe planets</h1>
+    <button id="previous">Previous</button>
+    <button id="next">Next</button>
+</header>
+
+<table>
+    <thead>
+        {% for data in datas %}
+        <th>
+            {{ data }}
+        </th>
+        {% endfor %}
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+</body>
+</html>
+
+
+{#{% for i in range(1, 9) %}#}
+{#        <tbody>#}
+{#            <tr>#}
+{#                {% for i in range(1, 9) %}#}
+{#                    <td>#}
+{#                        {{ i }}#}
+{#                    </td>#}
+{#                {% endfor %}#}
+{#            </tr>#}
+{#        </tbody>#}
+{#    {% endfor %}#}
