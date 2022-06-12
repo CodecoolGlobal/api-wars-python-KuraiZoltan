@@ -1,5 +1,8 @@
-const nextButton = document.querySelector('#next')
-const prevButton = document.querySelector('#previous')
+const nextButton = document.querySelector('#next');
+const prevButton = document.querySelector('#previous');
+let tbody = document.querySelector('#residents-table');
+const popup = document.querySelector('#popup');
+const closeButton = document.querySelector('#close-button')
 
 function getPlanetData(url = 'https://swapi.py4e.com/api/planets/?page=1') {
     let XML = new XMLHttpRequest()
@@ -8,10 +11,13 @@ function getPlanetData(url = 'https://swapi.py4e.com/api/planets/?page=1') {
     XML.onload = function() {
         if(XML.status === 200) {
             let response = JSON.parse(this.response)
-            nextButton.dataset.url = response.next
-            prevButton.dataset.url = response.previous
-            console.log(response)
-            getTable(response.results)
+            if ('results' in response) {
+                nextButton.dataset.url = response.next
+                prevButton.dataset.url = response.previous
+                getTable(response.results)
+            } else {
+                getResidentsTable(response)
+            }
         }
     }
     XML.send()
@@ -39,96 +45,48 @@ function getTable(planets) {
                 <td>${planets[i].terrain}</td>
                 <td>${'unknown' === planets[i].surface_water ? planets[i].surface_water : planets[i].surface_water + '%'} </td>
                 <td>${'unknown' === planets[i].population ? planets[i].population : planets[i].population + ' people'} </td>
-                <td>${0 === planets[i].residents.length ? 'No known residents' : '<button type="submit" class="popup"=>' + planets[i].residents.length + ' resident(s)</button>'}</td>
+                <td>${0 === planets[i].residents.length ? 'No known residents' : 
+                    '<button type="submit" class="popup" data-residents="['+planets[i].residents+']" data-name="'+planets[i].name+'">' +
+                    '' + planets[i].residents.length + ' resident(s)</button>'}</td>
                 <td><button>Vote</button></td>`
             }
              const buttons = document.querySelectorAll('.popup')
             for (let button of buttons) {
                 button.addEventListener('click', event => {
-
+                    let residentsList = button.dataset.residents
+                    tbody.innerHTML = ''
+                    popup.style.display = 'block'
+                    getResidentData(residentsList)
                 })
             }
 }
 
-
-function getPopupTable(popup) {
-    const rows = document.querySelectorAll('#popup');
-             for (let i = 0; i < popup; i++) {
-                // rows[i].innerHTML = `<td>${planets[i].name}</td>
-                // <td>${planets[i].diameter} km</td>
-                // <td>${planets[i].climate}</td>
-                // <td>${planets[i].terrain}</td>
-                // <td>${'unknown' === planets[i].surface_water ? planets[i].surface_water : planets[i].surface_water + '%'} </td>
-                // <td>${'unknown' === planets[i].population ? planets[i].population : planets[i].population + ' people'} </td>
-                // <td>${0 === planets[i].residents.length ? 'No known residents' : '<button type="submit" class="popup"=>' + planets[i].residents.length + ' resident(s)</button>'}</td>
-                // <td><button>Vote</button></td>`
-            }
+function getResidentData(residentsList) {
+    residentsList = residentsList.slice(1, residentsList.length - 1).split(',')
+    console.log(residentsList)
+    for (let residentUrl of residentsList) {
+        getPlanetData(residentUrl)
+    }
+    closeButton.addEventListener('click', () => {
+        tbody.innerHTML = ''
+        popup.style.display = 'none'
+    })
 }
 
+function getResidentsTable(response) {
+    let row = document.createElement('tr')
+    row.innerHTML = `
+                <td>${response.name}</td>
+                <td>${response.height}</td>
+                <td>${response.mass}</td>
+                <td>${response.hair_color}</td>
+                <td>${response.skin_color}</td>
+                <td>${response.eye_color}</td>
+                <td>${response.birth_year}</td>
+                <td>${response.gender}</td>
+    `
+    tbody.appendChild(row)
+    console.log(response)
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const nextButton = document.querySelector('#next')
-// const prevButton = document.querySelector('#previous')
-// const tBody = document.querySelector('tbody')
-// getData()
-//
-// function getData() {
-//     fetch('https://swapi.py4e.com/api/planets')
-//         .then(res => res.json())
-//         .then(datas => {
-//             for (let element of datas.results) {
-//
-//                 let tableRow = document.createElement('tr');
-//                 let tableName = document.createElement('td');
-//                 tableRow.appendChild(tableName);
-//                 tBody.appendChild(tableRow)
-//                 tableName.innerHTML = element['name']
-//
-//                 let tableDiameter = document.createElement('td');
-//                 tableRow.appendChild(tableDiameter)
-//                 tableDiameter.innerHTML = element['diameter']
-//
-//                 let tableClimate = document.createElement('td');
-//                 tableRow.appendChild(tableClimate)
-//                 tableClimate.innerHTML = element['climate']
-//
-//                 let tableTerrain = document.createElement('td');
-//                 tableRow.appendChild(tableTerrain)
-//                 tableTerrain.innerHTML = element['terrain']
-//
-//                 let tableSWP = document.createElement('td');
-//                 tableRow.appendChild(tableSWP)
-//                 tableSWP.innerHTML = element['surface_water']
-//
-//                 let tablePopulation = document.createElement('td');
-//                 tableRow.appendChild(tablePopulation)
-//                 tablePopulation.innerHTML = element['population']
-//
-//                 let tableResidents = document.createElement('td');
-//                 tableRow.appendChild(tableResidents)
-//                 tableResidents.innerHTML = element['residents'].length
-//
-//                 let tableVote = document.createElement('td');
-//                 tableRow.appendChild(tableVote);
-//                 tableVote.innerHTML = '<button>Vote</button>'
-//             }
-//         })
 
