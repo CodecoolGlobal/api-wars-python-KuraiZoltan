@@ -1,31 +1,34 @@
-
 const nextButton = document.querySelector('#next')
 const prevButton = document.querySelector('#previous')
-let url = 'https://swapi.py4e.com/api/planets'
-getPlanetData(url)
-function getPlanetData(url) {
+
+function getPlanetData(url = 'https://swapi.py4e.com/api/planets/?page=1') {
     let XML = new XMLHttpRequest()
+
     XML.open('GET', url, true)
     XML.onload = function() {
         if(XML.status === 200) {
-             let planets = JSON.parse(this.response)
-            getTable(planets.results)
-        nextButton.addEventListener('click', () => {
-            url = planets.next
-            getPlanetData(url)
-        })
-        prevButton.addEventListener('click', () => {
-            url = planets.previous
-            getPlanetData(url)
-        })
-
-
+            let response = JSON.parse(this.response)
+            nextButton.dataset.url = response.next
+            prevButton.dataset.url = response.previous
+            console.log(response)
+            getTable(response.results)
         }
     }
     XML.send()
 }
 
+document.onload = getPlanetData()
 
+nextButton.addEventListener('click', event => {
+    let url = event.target.dataset.url
+    console.log(url)
+    getPlanetData(url)
+})
+prevButton.addEventListener('click', event => {
+    let url = event.target.dataset.url
+    console.log(url)
+    getPlanetData(url)
+})
 
 function getTable(planets) {
     const rows = document.querySelectorAll('[data-row]');
@@ -34,10 +37,12 @@ function getTable(planets) {
                 <td>${planets[i].diameter} km</td>
                 <td>${planets[i].climate}</td>
                 <td>${planets[i].terrain}</td>
-                <td>${'unknown' === planets[i].surface_water ? planets[i].surface_water : planets[i].surface_water} %</td>
-                <td>${'unknown' === planets[i].population ? planets[i].population : planets[i].population} people</td>
-                <td>${planets[i].residents.length} resident(s)</td>`
+                <td>${'unknown' === planets[i].surface_water ? planets[i].surface_water : planets[i].surface_water + '%'} </td>
+                <td>${'unknown' === planets[i].population ? planets[i].population : planets[i].population + ' people'} </td>
+                <td>${planets[i].residents.length} resident(s)</td>
+                <td><button>Vote</button></td>`
             }
+
 }
 
 

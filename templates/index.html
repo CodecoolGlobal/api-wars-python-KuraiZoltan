@@ -8,10 +8,27 @@
 </head>
 <body>
 <header>
+    <div>
+        {% if not session.username %}
+            <a href="/user_registration">Sign up</a>
+            <a href="/login">Log in</a>
+        {% endif %}
+        {% if session.username %}
+            <a href="/logout">Log out</a>
+        {% endif %}
+    </div>
+    <div>
+        {% if session.username %}
+            <p>Logged in as {{ session.username }}</p>
+        {% endif %}
+
+    </div>
+</header>
+<div>
     <h1>Star Wars universe planets</h1>
     <button id="previous">Previous</button>
     <button id="next">Next</button>
-</header>
+</div>
 
 <table class="container">
     <thead>
