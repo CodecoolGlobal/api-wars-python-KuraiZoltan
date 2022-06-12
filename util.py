@@ -5,7 +5,7 @@ import data_manager
 import random
 
 table_head = ['Name', 'Diameter', 'Climate', 'Terrain', 'Surface Water Percentage', 'Population', 'Residents']
-
+popup_content = ['Name', 'Height', 'Mass', 'Hair color', 'Skin color', 'Eye color', 'Birth year', 'Gender']
 
 def generate_random_secret_key():
     secret_key = random.choices(string.ascii_lowercase, k=4)

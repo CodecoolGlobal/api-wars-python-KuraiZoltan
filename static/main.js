@@ -39,15 +39,31 @@ function getTable(planets) {
                 <td>${planets[i].terrain}</td>
                 <td>${'unknown' === planets[i].surface_water ? planets[i].surface_water : planets[i].surface_water + '%'} </td>
                 <td>${'unknown' === planets[i].population ? planets[i].population : planets[i].population + ' people'} </td>
-                <td>${planets[i].residents.length} resident(s)</td>
+                <td>${0 === planets[i].residents.length ? 'No known residents' : '<button type="submit" class="popup"=>' + planets[i].residents.length + ' resident(s)</button>'}</td>
                 <td><button>Vote</button></td>`
             }
+             const buttons = document.querySelectorAll('.popup')
+            for (let button of buttons) {
+                button.addEventListener('click', event => {
 
+                })
+            }
 }
 
 
-
-
+function getPopupTable(popup) {
+    const rows = document.querySelectorAll('#popup');
+             for (let i = 0; i < popup; i++) {
+                // rows[i].innerHTML = `<td>${planets[i].name}</td>
+                // <td>${planets[i].diameter} km</td>
+                // <td>${planets[i].climate}</td>
+                // <td>${planets[i].terrain}</td>
+                // <td>${'unknown' === planets[i].surface_water ? planets[i].surface_water : planets[i].surface_water + '%'} </td>
+                // <td>${'unknown' === planets[i].population ? planets[i].population : planets[i].population + ' people'} </td>
+                // <td>${0 === planets[i].residents.length ? 'No known residents' : '<button type="submit" class="popup"=>' + planets[i].residents.length + ' resident(s)</button>'}</td>
+                // <td><button>Vote</button></td>`
+            }
+}
 
 
 

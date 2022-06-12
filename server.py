@@ -11,7 +11,8 @@ app.secret_key = util.generate_random_secret_key()
 @app.route('/')
 def index():
     datas = util.table_head
-    return render_template('index.html', datas=datas)
+    popup = util.popup_content
+    return render_template('index.html', datas=datas, popup=popup)
 
 
 @app.route('/user_registration', methods=['GET', 'POST'])
